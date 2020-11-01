@@ -5,8 +5,6 @@
       div.header
         div.logo
           div.circle
-      //- div.menu 123
-      //- <router-link to="/loading">loading</router-link>
       router-view
       div.footer
         div Calling 0123456789
@@ -18,7 +16,8 @@
 </template>
 <script>
 import Loading from '@/pages/Loading.vue'
-const loadingTime = process.env.NODE_ENV.match('production') ? 4500 : 800
+const loadingTime = 4500
+// process.env.NODE_ENV.match('production') ?: 800
 export default {
   components: {
     Loading
@@ -40,7 +39,6 @@ export default {
     window.app = this
     this.$bus.$on('closeLoading', () => {
       this.showLoading = false
-      this.$bus.$emit('openHomeShowUp')
     })
   }
 }

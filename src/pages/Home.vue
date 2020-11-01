@@ -9,8 +9,8 @@
         @click='selectedSinger($event, i)',
         ref ='refSingers',
         )
-        div.name(v-if='singer.showInfo') {{singer.name}}
-        img.pic(v-if='!singer.showInfo',:src='singer.src')
+          div.name(v-if='!singer.showInfo') {{singer.name}}
+          img.pic(v-if='singer.showInfo',:src='singer.src')
     div.youtubeVedioContainer(v-if='showYoutubeVedio')
       div.mask
       iframe#vedio(width='100%',height='100%',
@@ -47,21 +47,28 @@ export default {
   },
   created() {
     window.home = this
-    this.$api.get('post1').then(res => {
-      this.singers = res.data.map(element => {
-        return {
-          name: element.title,
-          src: element.picSrc1,
-          id: element.id,
-          showInfo: true
-        }
-      })
-    })
   },
   mounted() {
-    setTimeout(() => {
-      this.singersAnimation.showUp()
-    }, 1200)
+    this.$api
+      .get('/post1')
+      .then(res => {
+        this.singers = res.data.map(element => {
+          return {
+            name: element.title,
+            src: element.picSrc1,
+            id: element.id,
+            showInfo: true
+          }
+        })
+      })
+      .catch(e => {
+        console.error(e)
+      })
+      .then(() => {
+        this.$nextTick(() => {
+          this.singersAnimation.showUp()
+        })
+      })
   },
   computed: {
     singersAnimation() {
@@ -70,9 +77,9 @@ export default {
       return {
         showUp: () => {
           anime({
-            targets: '.singers',
+            targets: '.picContainer',
             easing: 'easeInOutExpo',
-            duration: 800,
+            duration: 0,
             opacity: [0, 1]
           })
         },
@@ -153,16 +160,6 @@ export default {
       this.showYoutubeVedio = false
       this.showSingerPage = true
     }
-    // getTargets() {
-    //   if (this.$refs.refSingers) {
-    //     console.log(123)
-    //     return this.$refs.refSingers
-    //   } else {
-    //     setTimeout(() => {
-    //       this.getTargets()
-    //     }, 1000)
-    //   }
-    // }
   },
   components: {
     SingerSongs
@@ -181,6 +178,7 @@ export default {
     display: flex;
     justify-content: space-between;
     padding: 3vh;
+    opacity: 0;
     &.close {
       display: none;
     }
@@ -196,7 +194,6 @@ export default {
       .pic {
         width: 90%;
       }
-      opacity: 0;
     }
   }
   .youtubeVedioContainer {

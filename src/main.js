@@ -10,16 +10,21 @@ import anime from 'animejs/lib/anime.es.js'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
-Vue.prototype.$try = (fn, errorHandler = () => { }) => {
+Vue.prototype.$try = (fn, errorHandler) => {
   try {
     return fn()
   } catch (e) {
-    errorHandler(e)
+    if (errorHandler) {
+      errorHandler(e)
+    } else {
+      console.error(e)
+    }
   }
 }
 const api = axios.create({
-  baseURL: 'https://web-demo003-api.herokuapp.com/',
-  timeout: 5000
+  baseURL: process.env.NODE_ENV === 'production' ? 'https://demo-server.christsao.me/music' : 'http://localhost:39876/music',
+  // baseURL: 'https://web-demo003-api.herokuapp.com/',
+  timeout: 30000
 })
 Vue.config.productionTip = false
 Vue.prototype.$bus = new Vue()

@@ -32,11 +32,11 @@ export default {
         this.$bus.$emit('closeLoading')
       }
       if (this.percentage < 100) {
-        this.percentage += 1
+        this.percentage += 2
       } else {
         clearInterval(intval)
       }
-    }, this.loadingTime / 120)
+    }, this.loadingTime / 100)
   }
 }
 </script>

@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "set NODE_ENV=dev && vue-cli-service serve",
-    "build": "set NODE_ENV=production && vue-cli-service build",
+    "dev": "vue-cli-service serve --mode development",
+    "build": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint",
-    "s3": "aws s3 cp dist s3://xiang-s3 --recursive --acl=public-read --profile=default",
-    "s3-js": "aws s3 cp dist/js s3://xiang-s3/js --recursive --acl=public-read --profile=default"
+    "s3": "aws s3 cp dist s3://music-demo.christsao.me --recursive --acl=public-read --profile=default",
+    "s3-js": "aws s3 cp dist/js s3://music-demo.christsao.me/js --recursive --acl=public-read --profile=default"
   },
   "dependencies": {
     "animejs": "^3.2.0",
