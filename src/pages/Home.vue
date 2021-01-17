@@ -1,6 +1,6 @@
 <template lang='pug'>
-  div.singersContainer
-    div.picContainer(:class='{close:OffPicContainer}',name='singerPic',tag='div')
+  div.singersContainer(style='display:flex;flex-direction:column')
+    div.picContainer(name='singerPic',tag='div',:class='{close:OffPicContainer}')
       .singers(
         v-for='(singer, i) in singers',
         :key='singer.id',
@@ -9,20 +9,23 @@
         @click='selectedSinger($event, i)',
         ref ='refSingers',
         )
-          div.name(v-if='!singer.showInfo') {{singer.name}}
-          img.pic(v-if='singer.showInfo',:src='singer.src')
-    div.youtubeVedioContainer(v-if='showYoutubeVedio')
-      div.mask
-      iframe#vedio(width='100%',height='100%',
-      :src='"https://www.youtube.com/embed/"+videoIDs[seletedIndex]+"?rel=0&amp&autoplay=1&controls=0&showinfo=0"',
-      frameborder=0,allow='autoplay; encrypted-media' allowfullscreen,
-        )
+          div.picBox(style='padding:25px')
+            div.name(v-if='!singer.showInfo') {{singer.name}}
+            img.pic(v-if='singer.showInfo',:src='singer.src')
+    div.videoContainer(v-if='showYoutubeVideo',style='height:80vh')
+      .mask
+      iframe#Video(width='100%',height='100%',
+        :src='"https://www.youtube.com/embed/"+videoIDs[seletedIndex]+"?rel=0&amp&autoplay=1&controls=0&showinfo=0"',
+        frameborder=0,allow='autoplay; encrypted-media' allowfullscreen,
+          )
       div.videoOption
         div(@click='backSingersSelect($event)') Back
         div(@click='goSingerPage') Next Step
-    SingerSongs(v-if='showSingerPage',:singerId='seletedIndex')
-    div.backContainer(v-if='showSingerPage',@click='backSingersSelect($event)')
-      div back
+    div.audioContainer
+      SingerSongs(v-if='showSingerPage',:singerId='seletedIndex')
+      div.buttonContainer
+        div.backbutton(v-if='showSingerPage',@click='backSingersSelect($event)')
+          div back
 
 </template>
 
@@ -37,7 +40,7 @@ export default {
       singers: [],
       show: true,
       OffPicContainer: false,
-      showYoutubeVedio: false,
+      showYoutubeVideo: false,
       showSingerPage: false,
       videoIDs: ['UqyT8IEBkvY', 'bAFo6IIV03M', 'VPSoNx1gyQ4'],
       seletedTarget: {},
@@ -146,18 +149,18 @@ export default {
     selectedSinger(event, index, func) {
       this.singersAnimation.onClickFadeway(event, index).then(() => {
         this.OffPicContainer = true
-        this.showYoutubeVedio = true
+        this.showYoutubeVideo = true
       })
     },
     backSingersSelect(event) {
       this.OffPicContainer = false
-      this.showYoutubeVedio = false
+      this.showYoutubeVideo = false
       this.showSingerPage = false
       this.singersAnimation.reset(event)
     },
     goSingerPage() {
       this.OffPicContainer = true
-      this.showYoutubeVedio = false
+      this.showYoutubeVideo = false
       this.showSingerPage = true
     }
   },
@@ -167,19 +170,23 @@ export default {
 }
 </script>
 <style scoped lang='scss'>
+.singersContainerHeightAuto {
+  height: inherit;
+}
 .singersContainer {
-  display: flex;
-  justify-content: center;
-  padding-top: 10vh;
-  height: 90vh;
   background-color: black;
   .picContainer {
+    height: 80vh;
+
     width: 100%;
     display: flex;
     justify-content: space-between;
     padding: 3vh;
     opacity: 0;
     &.close {
+      width: 0;
+      padding: 0;
+      height: 0;
       display: none;
     }
     .singers {
@@ -196,55 +203,64 @@ export default {
       }
     }
   }
-  .youtubeVedioContainer {
+  .videoContainer {
     width: 100%;
     height: 100%;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
+    z-index: 1;
     .mask {
       width: 100%;
       height: 100%;
+      display: flex;
       z-index: 2;
-      position: static;
+      position: absolute;
     }
     .videoOption {
-      z-index: 3;
       color: white;
       border-style: solid;
       border-width: 1px;
       position: absolute;
+      z-index: 3;
       div {
         cursor: pointer;
       }
     }
-    iframe {
-      position: absolute;
+  }
+  .audioContainer {
+    display: flex;
+    flex-direction: column;
+    .buttonContainer {
+      height: 10vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .backbutton {
+        color: white;
+        width: 75px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 1rem;
+        border-style: solid;
+        border-width: 1px;
+        position: absolute;
+        cursor: pointer;
+      }
     }
   }
-  .backContainer {
-    color: white;
-    width: 15%;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 1rem;
-    border-style: solid;
-    border-width: 1px;
-    position: absolute;
-    bottom: -100px;
-    cursor: pointer;
-  }
+
   @media (max-width: 1025px) {
     .videoOption {
       position: absolute;
       bottom: 34%;
     }
-    .youtubeVedioContainer {
+    .videoContainer {
       .mask {
-        z-index: 0;
+        z-index: -1;
       }
     }
     .singers {

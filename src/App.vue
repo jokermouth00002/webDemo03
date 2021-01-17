@@ -109,11 +109,12 @@ export default {
   }
 }
 .header {
-  height: 15vh;
   display: flex;
   justify-content: space-between;
-  padding: 5vh;
+  padding-top: 20px;
+  padding-left: 20px;
   background-color: black;
+  height: 15vh;
   .logo {
     width: 50px;
     height: 50px;
@@ -133,8 +134,6 @@ export default {
 
 .footer {
   background-color: black;
-  height: 40vh;
-  padding-top: 15vh;
   color: white;
 }
 </style>

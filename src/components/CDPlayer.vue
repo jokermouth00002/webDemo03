@@ -83,12 +83,12 @@ audio {
 }
 .audio-control {
   width: 200px;
-  height: 150px;
   color: white;
   div {
     display: flex;
     justify-content: space-around;
     .playButton {
+      border-radius: 25%;
       width: 50px;
       display: flex;
       justify-content: center;
