@@ -48,6 +48,7 @@ export default {
       this.rotateActive = true
     })
     this.$bus.$emit('backToHomePage')
+    this.$bus.$emit('onAutoHeight')
   },
   computed: {
     selectedSong() {
@@ -117,6 +118,7 @@ export default {
       border-color: transparent transparent transparent white;
       position: relative;
       left: 20px;
+      top: 30xp;
     }
     .previousCD {
       cursor: pointer;
@@ -168,6 +170,7 @@ export default {
       border-color: transparent transparent transparent white;
       position: relative;
       left: 20px;
+      top: 30xp;
     }
     .previousCD {
       cursor: pointer;
