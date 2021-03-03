@@ -51,6 +51,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   background-color: black;
+  height: 100vh;
 }
 .loading {
   position: absolute;
